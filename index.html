@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token Verification Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: linear-gradient(120deg, #2980b9, #6dd5fa); }
+        .login-container { width: 350px; padding: 40px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); text-align: center; animation: fadeIn 1.5s ease-in-out; }
+        h2 { color: white; margin-bottom: 20px; }
+        .input-box { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; outline: none; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 5px; background: #ff7e5f; color: white; font-size: 16px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #e05643; }
+        .hidden { display: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="text" class="input-box" placeholder="Username">
+        <input type="password" class="input-box" placeholder="Password">
+        <input type="tel" class="input-box" placeholder="Mobile Number" id="mobileNumber">
+        <button class="btn" onclick="sendToken()">Send Token</button>
+        <input type="text" class="input-box" placeholder="Enter Token" id="token">
+        <button class="btn" onclick="verifyToken()">Verify & Login</button>
+    </div>
+
+    <div class="login-container hidden" id="successContainer">
+        <h2>Verification Successful!</h2>
+        <button class="btn" onclick="goToHome()">Go to Homepage</button>
+    </div>
+
+    <script>
+        let generatedToken = null;
+
+        function sendToken() {
+            let mobile = document.getElementById('mobileNumber').value;
+            if (mobile.length === 10) {
+                generatedToken = Math.floor(100000 + Math.random() * 900000); // 6-digit token
+                alert('Your verification token: ' + generatedToken); // Replace with SMS API
+            } else {
+                alert('Please enter a valid 10-digit mobile number');
+            }
+        }
+
+        function verifyToken() {
+            let userToken = document.getElementById('token').value;
+            if (userToken == generatedToken) {
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('successContainer').classList.remove('hidden');
+            } else {
+                alert('Invalid token, please try again!');
+            }
+        }
+
+        function goToHome() {
+            window.location.href = 'home.html';
+        }
+    </script>
+</body>
+</html>
